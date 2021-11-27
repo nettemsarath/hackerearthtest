@@ -9,7 +9,6 @@ import { fetchUsersData } from "slices/charts";
 
 function App() {
   const dispatch = useDispatch();
-  console.log("getChartData");
   useEffect(() => {
     dispatch(fetchUsersData());
   }, []);

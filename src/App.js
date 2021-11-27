@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import Graph from "components/Graph";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchUsersData } from "slices/charts";
+// import { addItem, removeItem, getChartData } from "slices/charts";
 
 function App() {
+  const dispatch = useDispatch();
+  console.log("getChartData");
+  useEffect(() => {
+    dispatch(fetchUsersData());
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div style={{ fontSize: "40px", color: "black" }}>
+        <b>Graphs</b>
+      </div>
+      <Graph />
     </div>
   );
 }

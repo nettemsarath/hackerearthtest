@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Cell } from "recharts";
 import { getRandomColor } from "helpers/getRandomColor";
 
-const Bargraph = ({ data, title }) => {
-  const graphData = data.map((chartdata) => {
-    return {
-      value: chartdata,
-      color: getRandomColor(),
-    };
-  });
+const Bargraph = ({ graphData, title, id, type, handleUpdateGraphItem }) => {
+  const [enteredText, setEnteredText] = useState("");
+  const handleChange = (e) => {
+    setEnteredText(e.target.value);
+  };
+  const handleSubmit = () => {
+    const newEnteredgraphvalues = enteredText.split(",");
+    handleUpdateGraphItem({
+      type: type,
+      id: id,
+      elements: newEnteredgraphvalues.map((element) => {
+        return {
+          value: element,
+          color: getRandomColor(),
+        };
+      }),
+    });
+  };
   return (
     <div
       style={{
@@ -17,7 +28,18 @@ const Bargraph = ({ data, title }) => {
         alignItems: "center",
       }}
     >
-      <div> {title} </div>
+      <div>
+        <div> {title} </div>
+        <p> Edit values to see the changes in the Graph </p>
+        <input
+          placeholder="12,22,34,45,56"
+          style={{ margin: "10px", padding: "5px" }}
+          value={enteredText}
+          onChange={handleChange}
+        />
+        <button onClick={handleSubmit}>submit</button>
+      </div>
+
       <BarChart
         width={500}
         height={250}

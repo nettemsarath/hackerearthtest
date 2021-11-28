@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import { getRandomColor } from "helpers/getRandomColor";
 
-const Piegraph = ({ data, title }) => {
-  const graphData = data.map((chartdata) => {
-    return {
-      value: chartdata,
-      color: getRandomColor(),
-    };
-  });
-
+const Piegraph = ({ graphData, title, id, type, handleUpdateGraphItem }) => {
+  const [enteredText, setEnteredText] = useState("");
+  const handleChange = (e) => {
+    setEnteredText(e.target.value);
+  };
+  const handleSubmit = () => {
+    const newEnteredgraphvalues = enteredText.split(",");
+    handleUpdateGraphItem({
+      type: type,
+      id: id,
+      elements: newEnteredgraphvalues.map((element) => {
+        return {
+          value: element,
+          color: getRandomColor(),
+        };
+      }),
+    });
+  };
   return (
     <div
       style={{
@@ -18,8 +28,17 @@ const Piegraph = ({ data, title }) => {
         alignItems: "center",
       }}
     >
-      <div> {title} </div>
-
+      <div>
+        <div> {title} </div>
+        <p> Edit values to see the changes in the Graph </p>
+        <input
+          placeholder="12,22,34,45,56"
+          style={{ margin: "10px", padding: "5px" }}
+          value={enteredText}
+          onChange={handleChange}
+        />
+        <button onClick={handleSubmit}>submit</button>
+      </div>
       <PieChart width={600} height={400}>
         <Pie
           dataKey="value"

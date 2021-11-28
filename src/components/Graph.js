@@ -4,11 +4,15 @@ import Piegraph from "./Piegraph";
 // import useChartData from "hooks/useChartData";
 import CustomGraph from "./CustomGraph";
 import { useDispatch, useSelector } from "react-redux";
+import { updateItem } from "slices/charts";
 
 const Graph = () => {
   // const [loading, data, error] = useChartData();
+  const dispatch = useDispatch();
   const { chartdata, loading, error } = useSelector((state) => state.charts);
-  console.log("chartData...chartData....", chartdata);
+  const handleUpdateGraphItem = (newItem) => {
+    dispatch(updateItem(newItem));
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -22,16 +26,22 @@ const Graph = () => {
               return (
                 <Bargraph
                   key={index}
-                  data={chartdata.elements}
+                  type={chartdata.type}
+                  id={chartdata.id}
+                  graphData={chartdata.elements}
                   title="Bar Graph"
+                  handleUpdateGraphItem={handleUpdateGraphItem}
                 />
               );
             } else if (chartdata.type === "Pie") {
               return (
                 <Piegraph
                   key={index}
-                  data={chartdata.elements}
+                  type={chartdata.type}
+                  id={chartdata.id}
+                  graphData={chartdata.elements}
                   title="Pie Graph"
+                  handleUpdateGraphItem={handleUpdateGraphItem}
                 />
               );
             }

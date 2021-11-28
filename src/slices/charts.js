@@ -1,9 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchChartData } from "services/chartData";
+import { getRandomColor } from "helpers/getRandomColor";
 
 export const fetchUsersData = createAsyncThunk("charts/get", async () => {
-  const data = await fetchChartData();
-  return data;
+  const chartdata = await fetchChartData();
+  const newData = chartdata.map((data, index) => {
+    return {
+      type: data.type,
+      id: index,
+      elements: data.elements.map((element) => {
+        return {
+          value: element,
+          color: getRandomColor(),
+        };
+      }),
+    };
+  });
+  return newData;
 });
 
 const initialData = {
@@ -19,6 +32,10 @@ const chartSlice = createSlice({
     addItem: (state, action) => {
       console.log("action.payload", action.payload);
       state.chartdata.push(action.payload);
+    },
+    updateItem: (state, action) => {
+      console.log("action.payload", action.payload);
+      state.chartdata[action.payload.id] = action.payload;
     },
     removeItem: (state, action) => {
       state.chartdata.filter((data) => data.id !== action.payload.id);
@@ -41,4 +58,4 @@ const chartSlice = createSlice({
 
 export default chartSlice.reducer;
 
-export const { addItem, removeItem } = chartSlice.actions;
+export const { addItem, removeItem, updateItem } = chartSlice.actions;

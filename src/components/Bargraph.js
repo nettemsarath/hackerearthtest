@@ -14,7 +14,7 @@ const Bargraph = ({ graphData, title, id, type, handleUpdateGraphItem }) => {
       id: id,
       elements: newEnteredgraphvalues.map((element) => {
         return {
-          value: element,
+          value: parseInt(element),
           color: getRandomColor(),
         };
       }),

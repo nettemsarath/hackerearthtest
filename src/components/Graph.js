@@ -11,6 +11,7 @@ const Graph = () => {
   const dispatch = useDispatch();
   const { chartdata, loading, error } = useSelector((state) => state.charts);
   const handleUpdateGraphItem = (newItem) => {
+    console.log("newItem newItem newItem", newItem);
     dispatch(updateItem(newItem));
   };
   if (loading) {

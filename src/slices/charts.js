@@ -30,11 +30,9 @@ const chartSlice = createSlice({
   initialState: initialData,
   reducers: {
     addItem: (state, action) => {
-      console.log("action.payload", action.payload);
       state.chartdata.push(action.payload);
     },
     updateItem: (state, action) => {
-      console.log("action.payload", action.payload);
       state.chartdata[action.payload.id] = action.payload;
     },
     removeItem: (state, action) => {
